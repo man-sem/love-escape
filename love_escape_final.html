@@ -24,7 +24,7 @@ canvas{display:block;border:2px solid #C4A97A;border-radius:8px;max-width:100%;t
   h1{display:none;}
   #hud{gap:14px;font-size:11px;margin-bottom:1px;padding:2px 0;}
   #msg{display:none;}
-  canvas{width:auto;height:calc(100vh - 38px);max-width:100vw;display:block;margin:0 auto;}
+  canvas{display:block;margin:0 auto;}
   #controls{display:flex;position:fixed;bottom:0;left:0;right:0;padding:3px 8px;background:rgba(26,10,0,0.65);margin:0;max-width:100%;}
   .btn-ctrl{width:62px;height:44px;font-size:20px;}
   #btn-jump{width:84px;font-size:14px;}
@@ -56,7 +56,7 @@ const K={};
 document.addEventListener('keydown',e=>{K[e.code]=true;['ArrowUp','ArrowDown','Space','ArrowLeft','ArrowRight'].includes(e.code)&&e.preventDefault();});
 document.addEventListener('keyup',e=>{K[e.code]=false;});
 const P={x:220,y:GY,w:22,h:52,vx:0,vy:0,g:true,dir:1,inv:0,wt:0,wf:0};
-const E={x:-90,y:GY,spd:1.3,boost:0};
+const E={x:-90,y:GY,spd:2.0,boost:0};
 const plats=[
   {x:420,y:278,w:120,h:12},{x:720,y:240,w:100,h:12},{x:1000,y:268,w:90,h:12},
   {x:1280,y:250,w:110,h:12},{x:1580,y:278,w:80,h:12},{x:1840,y:240,w:100,h:12},
@@ -464,7 +464,7 @@ document.addEventListener('keydown',e=>{if(e.code==='KeyR'&&(over||win||finalePh
 
 function reset(){
   P.x=70;P.y=GY;P.vx=0;P.vy=0;P.g=true;P.dir=1;P.inv=0;P.wt=0;P.wf=0;
-  E.x=-90;E.spd=0.85;E.boost=0;
+  E.x=-90;E.spd=1.5;E.boost=0;
   score=0;lives=3;npcDone=0;camX=0;
   NPCS.forEach(n=>n.done=false);BONUSES.forEach(b=>b.got=false);dialog=null;hitAnim=null;catchHearts=[];fbMsg=null;fbT=0;over=false;win=false;finalePhase='none';finaleTimer=0;finaleHov=-1;
 }
@@ -705,6 +705,23 @@ function loop(){
   updateHUD();
   requestAnimationFrame(loop);
 }
+// --- Ridimensionamento canvas ---
+function fitCanvas(){
+  const hud=document.getElementById('hud');
+  const hudH=hud.offsetHeight+hud.offsetTop+4;
+  const maxW=window.innerWidth;
+  const maxH=window.innerHeight-hudH;
+  const ratio=800/420;
+  let cw,ch;
+  if(maxW/maxH>ratio){ch=maxH;cw=maxH*ratio;}
+  else{cw=maxW;ch=maxW/ratio;}
+  C.style.width=Math.floor(cw)+'px';
+  C.style.height=Math.floor(ch)+'px';
+}
+window.addEventListener('resize',fitCanvas);
+window.addEventListener('orientationchange',()=>setTimeout(fitCanvas,150));
+fitCanvas();
+
 // --- Touch controls ---
 ['btn-left','btn-right','btn-jump'].forEach(id=>{
   const btn=document.getElementById(id);
