@@ -1,0 +1,22 @@
+{
+  "name": "Love Escape",
+  "short_name": "LoveEscape",
+  "description": "Un platformer 2D ambientato a Roma",
+  "start_url": "/love-escape/love_escape_final.html",
+  "display": "fullscreen",
+  "orientation": "landscape",
+  "background_color": "#1a0a00",
+  "theme_color": "#FFD700",
+  "icons": [
+    {
+      "src": "https://via.placeholder.com/192x192/1a0a00/FFD700?text=LE",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "https://via.placeholder.com/512x512/1a0a00/FFD700?text=LE",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
